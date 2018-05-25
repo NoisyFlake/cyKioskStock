@@ -1,1 +1,41 @@
-<h1>This is the index</h1>
+<html>
+	<head>
+		<meta charset="utf-8" />
+		<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+
+		<link rel="stylesheet" type="text/css" href="semantic.min.css">
+		<title>CyKiosk Export</title>
+	</head>
+	<body>
+		<br>
+		<div class="ui container" id="main">
+		</div>
+		<br>
+
+		<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+		<script>
+			$.get("data.json", function(json) {
+
+				$('#main').append('<h3>Exported at ' + json.timestamp + '</h3>');
+				for(let i = 0; i < json.stock.length; i++) {
+					let category = json.stock[i];
+
+					let html = '<table class="ui celled table">'
+							+ '<thead><tr><th colspan="2">' + category.name + '</th></tr></thead><tbody>';
+
+					for (let j = 0; j < category.products.length; j++) {
+						let product = category.products[j];
+						html += '<tr><td class="collapsing">';
+
+						let color = (product.stock > 5 ? 'teal' : (product.stock > 0 ? 'red' : 'grey'));
+						html += '<span class="ui ' + color + ' circular label">' + product.stock + '</span>';
+						html += '</td><td>' + product.name + '</td>';
+					}
+					html += '</tbody></table>';
+
+					$('#main').append(html);
+				}
+			});
+		</script>
+	</body>
