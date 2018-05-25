@@ -15,7 +15,10 @@
 
 		<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 		<script>
-			$.get("data.json", function(json) {
+			$.get({
+				url: "data.json",
+				cache: false
+			}).then(function(json) {
 
 				$('#main').append('<h3>Exported at ' + json.timestamp + '</h3>');
 				for(let i = 0; i < json.stock.length; i++) {
